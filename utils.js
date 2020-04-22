@@ -61,16 +61,6 @@ function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
         img.src = url;
     };
 
-    this.executeCode = function(textAreaId) {
-        try {
-            this.clearError();
-            let code = document.getElementById(textAreaId).value;
-            eval(code);
-        } catch (err) {
-            this.printError(err);
-        }
-    };
-
     this.clearError = function() {
         this.errorOutput.innerHTML = '';
     };
@@ -95,15 +85,6 @@ function Utils(errorOutputId) { // eslint-disable-line no-unused-vars
             err = err.stack.replace(/\n/g, '<br>');
         }
         this.errorOutput.innerHTML = err;
-    };
-
-    this.loadCode = function(scriptId, textAreaId) {
-        let scriptNode = document.getElementById(scriptId);
-        let textArea = document.getElementById(textAreaId);
-        if (scriptNode.type !== 'text/code-snippet') {
-            throw Error('Unknown code snippet type');
-        }
-        textArea.value = scriptNode.text.replace(/^\n/, '');
     };
 
     this.addFileInputHandler = function(fileInputId, canvasId) {
