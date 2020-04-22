@@ -51,7 +51,7 @@ function init() {
     classifier = new cv.CascadeClassifier();
 
     // load pre-trained classifiers
-    classifier.load('haarcascade_frontalface_default.xml');
+    classifier.load('haarcascade_eye.xml');
 
     startAndStop.removeAttribute('disabled');
 }
@@ -76,6 +76,7 @@ function processVideo() {
         // detect faces.
         classifier.detectMultiScale(gray, faces, 1.1, 3, 0);
         // draw faces.
+        // TODO: should remove overlapping ROIs
         for (let i = 0; i < faces.size(); ++i) {
             let face = faces.get(i);
             let point1 = new cv.Point(face.x, face.y);
@@ -125,7 +126,7 @@ function onVideoStopped() {
 }
 
 utils.loadOpenCv(() => {
-    let faceCascadeFile = 'haarcascade_frontalface_default.xml';
+    let faceCascadeFile = 'haarcascade_eye.xml';
     utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, init);
 });
 </script>
