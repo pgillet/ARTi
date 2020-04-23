@@ -51,7 +51,7 @@ function init() {
     classifier = new cv.CascadeClassifier();
 
     // load pre-trained classifiers
-    classifier.load('haarcascade_eye.xml');
+    classifier.load('haarcascade_eye_tree_eyeglasses.xml');
 
     startAndStop.removeAttribute('disabled');
 }
@@ -76,13 +76,23 @@ function processVideo() {
         // detect faces.
         classifier.detectMultiScale(gray, faces, 1.1, 3, 0);
         // draw faces.
-        // TODO: should remove overlapping ROIs
+
+        let barx, bary;
+        barx = bary = 0;
+
         for (let i = 0; i < faces.size(); ++i) {
             let face = faces.get(i);
-            let point1 = new cv.Point(face.x, face.y);
-            let point2 = new cv.Point(face.x + face.width, face.y + face.height);
-            cv.rectangle(dst, point1, point2, [255, 0, 0, 255]);
+            // let point1 = new cv.Point(face.x, face.y);
+            // let point2 = new cv.Point(face.x + face.width / 2, face.y + face.height / 2);
+            // cv.rectangle(dst, point1, point2, [255, 0, 0, 255]);
+
+            barx += face.x + face.width / 2;
+            bary += face.y + face.height / 2;
         }
+
+        let barycenter = new cv.Point(barx / faces.size(), bary / faces.size());
+        cv.circle(dst, barycenter, 3, [255, 0, 0, 255]);
+
         cv.imshow('canvasOutput', dst);
         // schedule the next one.
         let delay = 1000/FPS - (Date.now() - begin);
@@ -126,7 +136,7 @@ function onVideoStopped() {
 }
 
 utils.loadOpenCv(() => {
-    let faceCascadeFile = 'haarcascade_eye.xml';
+    let faceCascadeFile = 'haarcascade_eye_tree_eyeglasses.xml';
     utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, init);
 });
 </script>
