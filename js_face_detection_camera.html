@@ -41,6 +41,9 @@
 let video = document.getElementById('videoInput');
 
 let src, dst, gray, cap, faces, classifier;
+let canvas = document.getElementById('canvasOutput');
+let nox = canvas.width / 2;
+let noy = canvas.height / 2;
 
 function init() {
     src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
@@ -92,6 +95,12 @@ function processVideo() {
 
         let barycenter = new cv.Point(barx / faces.size(), bary / faces.size());
         cv.circle(dst, barycenter, 3, [255, 0, 0, 255]);
+
+        let dx = barycenter.x - nox;
+        let dy = barycenter.y - noy;
+
+        let vanishingPoint = new cv.Point(nox - dx, noy - dy)
+        cv.circle(dst, vanishingPoint, 3, [255, 0, 0, 255]);
 
         cv.imshow('canvasOutput', dst);
         // schedule the next one.
