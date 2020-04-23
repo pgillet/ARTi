@@ -74,7 +74,7 @@ function processVideo() {
         src.copyTo(dst);
         cv.cvtColor(dst, gray, cv.COLOR_RGBA2GRAY, 0);
         // detect faces.
-        classifier.detectMultiScale(gray, faces, 1.1, 3, 0);
+        classifier.detectMultiScale(gray, faces, 1.1, 2);
         // draw faces.
 
         let barx, bary;
