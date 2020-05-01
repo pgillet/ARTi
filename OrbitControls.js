@@ -498,7 +498,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	}
 
-	this.handleRotate = function(x, y) {
+	this.handleMoveRotate = function(x, y) {
 
 		rotateEnd.set( x, y );
 
@@ -554,6 +554,21 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	}
 
+	this.handleMovePan = function( x, y ) {
+
+		panEnd.set( x, y );
+
+		panDelta.subVectors( panEnd, panStart ).multiplyScalar( scope.panSpeed );
+
+		pan( panDelta.x, panDelta.y );
+
+		panStart.copy( panEnd );
+
+		scope.update();
+
+	}
+
+
 	function handleMouseUp( /*event*/ ) {
 
 		// no-op
@@ -567,6 +582,23 @@ THREE.OrbitControls = function ( object, domElement ) {
 			dollyIn( getZoomScale() );
 
 		} else if ( event.deltaY > 0 ) {
+
+			dollyOut( getZoomScale() );
+
+		}
+
+		scope.update();
+
+	}
+
+
+	this.handleZoom = function( deltaY ) {
+
+		if ( deltaY < 0 ) {
+
+			dollyIn( getZoomScale() );
+
+		} else if ( deltaY > 0 ) {
 
 			dollyOut( getZoomScale() );
 
