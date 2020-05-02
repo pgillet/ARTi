@@ -540,6 +540,28 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	}
 
+	this.handleMoveDolly = function( x, y ) {
+
+		dollyEnd.set( x, y );
+
+		dollyDelta.subVectors( dollyEnd, dollyStart );
+
+		if ( dollyDelta.y > 0 ) {
+
+			dollyIn( getZoomScale() );
+
+		} else if ( dollyDelta.y < 0 ) {
+
+			dollyOut( getZoomScale() );
+
+		}
+
+		dollyStart.copy( dollyEnd );
+
+		scope.update();
+
+	}
+
 	function handleMouseMovePan( event ) {
 
 		panEnd.set( event.clientX, event.clientY );
@@ -582,23 +604,6 @@ THREE.OrbitControls = function ( object, domElement ) {
 			dollyIn( getZoomScale() );
 
 		} else if ( event.deltaY > 0 ) {
-
-			dollyOut( getZoomScale() );
-
-		}
-
-		scope.update();
-
-	}
-
-
-	this.handleZoom = function( deltaY ) {
-
-		if ( deltaY < 0 ) {
-
-			dollyIn( getZoomScale() );
-
-		} else if ( deltaY > 0 ) {
 
 			dollyOut( getZoomScale() );
 

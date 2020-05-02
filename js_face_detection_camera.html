@@ -117,7 +117,7 @@ function initScene() {
         var mat = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 2 } );
         var wireframe = new THREE.LineSegments( geo, mat );
         mesh.add( wireframe );
-        
+
     }
 
     // lights
@@ -213,8 +213,7 @@ function processVideo() {
 
             // Zoom control
             if (typeof previousFace !== 'undefined') {
-                delta = (previousFace.width * previousFace.height) - (face.width * face.height);
-                // controls.handleZoom(delta * zoomFactor);
+                controls.handleMoveDolly(outputX, outputY);
             }
 
             controls.update();
