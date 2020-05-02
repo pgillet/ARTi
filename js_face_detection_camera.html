@@ -112,6 +112,12 @@ function initScene() {
 
         scene.add( mesh );
 
+        // wireframe
+        var geo = new THREE.EdgesGeometry( mesh.geometry ); // or WireframeGeometry
+        var mat = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 2 } );
+        var wireframe = new THREE.LineSegments( geo, mat );
+        mesh.add( wireframe );
+        
     }
 
     // lights
